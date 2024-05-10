@@ -39,10 +39,11 @@ function Game() {
   }
   
   useEffect(() => {
+    const arr = Array(12).fill(null);
     function populateUrls() {
       const int = Math.floor(Math.random() * 80) + 1;
-      const ints = pokemon.map((item, index) => (index + 1) * int)
-      const nextPokemonUrls = pokemon.map((item, index) => {
+      const ints = arr.map((item, index) => (index + 1) * int)
+      const nextPokemonUrls = arr.map((item, index) => {
         return `https://pokeapi.co/api/v2/pokemon/${ints[index]}/`
       })
       return nextPokemonUrls;
@@ -52,12 +53,12 @@ function Game() {
       fetch(url)
       .then(response => response.json())
       .then(data => {
-        const nextPokemon = pokemon;
+        const nextPokemon = arr;
         nextPokemon[index] = data
         setPokemon(nextPokemon);
       });
     })
-  }, [pokemon]);
+  }, []);
 
   return (
     <div>
