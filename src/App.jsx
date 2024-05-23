@@ -1,25 +1,9 @@
 import { useEffect, useState } from "react";
-import styles from "../styles/game.module.css";
 import { range } from "lodash";
-
-function populateUrls() {
-  const int = Math.floor(Math.random() * 80) + 1;
-  const ints = range(12).map((item, index) => (index + 1) * int);
-  const nextPokemonUrls = range(12).map((item, index) => {
-    return `https://pokeapi.co/api/v2/pokemon/${ints[index]}/`;
-  });
-  return nextPokemonUrls;
-}
-
-async function fetcher(urls) {
-  const response = await Promise.all(
-    urls.map(async (url) => {
-      const result = await fetch(url);
-      return await result.json();
-    })
-  );
-  return response;
-}
+import { shuffleArray, populateUrls, fetcher } from "../helpers";
+import CardSet from "./Components/CardSet/CardSet";
+import Header from "./Components/Header/Header";
+import LoadingIcon from "./Components/LoadingIcon/LoadingIcon";
 
 function Game() {
   const [status, setStatus] = useState("loading");
@@ -37,12 +21,6 @@ function Game() {
     }
   }
 
-  function shufflePokemon() {
-    const nextPokemon = pokemon;
-    nextPokemon.sort(() => Math.random() - 0.5);
-    setPokemon(nextPokemon);
-  }
-
   function changeClicked(name) {
     const nextClicked = clicked;
     nextClicked.push(name);
@@ -57,13 +35,15 @@ function Game() {
     } else {
       handleScoreChange();
       changeClicked(name);
-      shufflePokemon();
+      shuffleArray(pokemon, setPokemon);
     }
   }
 
   useEffect(() => {
     async function getPokemon() {
-      const response = await fetcher(populateUrls());
+      const response = await fetcher(
+        populateUrls("https://pokeapi.co/api/v2/pokemon/", 12)
+      );
       setPokemon(response);
       setStatus("success");
     }
@@ -71,68 +51,21 @@ function Game() {
   }, [gameOver]);
 
   return (
-    <div>
-      <div className={styles.gameHeader}>
-        <Header />
-        <ScoreBoard current={currentScore} best={bestScore} />
-      </div>
-      {status === "loading" ? (
-        <div className={styles.loadingContainer}>
-          <img className={styles.loadingStar} src="./assets/pokeball.png" />
-        </div>
-      ) : (
-        <CardSet pokemon={pokemon} handleScoreChange={handleClick} />
-      )}
-    </div>
-  );
-}
-
-function Header() {
-  return (
-    <div>
-      <h1 className={styles.gameHeaderTitle}>Pokémon Memory Game</h1>
-      <p>
+    <>
+      <Header
+        title="Pokémon Memory Game"
+        current={currentScore}
+        best={bestScore}
+      >
         Click on the Pokémon to get points, but do not click on the same one
         twice!
-      </p>
-    </div>
-  );
-}
-
-function ScoreBoard({ current, best }) {
-  return (
-    <div className={styles.gameScore}>
-      <h2>
-        Score: <span className={styles.gameScoreNum}>{current}</span>
-      </h2>
-      <h2>
-        Best Score: <span className={styles.gameScoreNum}>{best}</span>
-      </h2>
-    </div>
-  );
-}
-
-function Card({ img, name, handleScoreChange }) {
-  return (
-    <div className={styles.gameBoardCard} onClick={handleScoreChange}>
-      <img src={img} alt="" className={styles.gameBoardCardImg} />
-      <p className={styles.gameBoardCardName}>{name}</p>
-    </div>
-  );
-}
-
-function CardSet({ pokemon, handleScoreChange }) {
-  return (
-    <div className={styles.gameBoard}>
-      {pokemon?.map((poke, index) => (
-        <Card
-          name={poke?.name}
-          img={poke?.sprites.front_default}
-          key={index}
-          handleScoreChange={() => handleScoreChange(poke?.name)}
-        />
-      ))}
-    </div>
+      </Header>
+      {status === "loading" ? (
+        <LoadingIcon photoSrc="../assets/pokeball.png" />
+      ) : (
+        <CardSet set={pokemon} handleScoreChange={handleClick} />
+      )}
+    </>
   );
 }
 
