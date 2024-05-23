@@ -66,8 +66,7 @@ p {
 .loadingStar {
   margin: 0 auto;
   animation: rotateStar 2000ms infinite ease-in-out alternate;
-  width: 5%;
-  height: 21%;
+  width: 20%;
 }
 
 @keyframes rotateStar {

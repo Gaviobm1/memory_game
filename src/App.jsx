@@ -61,7 +61,7 @@ function Game() {
         twice!
       </Header>
       {status === "loading" ? (
-        <LoadingIcon photoSrc="../assets/pokeball.png" />
+        <LoadingIcon photoSrc="./assets/pokeball.svg" />
       ) : (
         <CardSet set={pokemon} handleScoreChange={handleClick} />
       )}
