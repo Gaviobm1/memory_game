@@ -5,7 +5,7 @@
   box-sizing: border-box;
 }
 
-.game__header {
+.gameHeader {
   display: flex;
   justify-content: space-between;
   gap: 4rem;
@@ -14,19 +14,19 @@
   margin: 0 auto;
 }
 
-.game__header--title {
+.gameHeaderTitle {
   font-size: clamp(1.5rem, 4vw, 4rem);
 }
 
-.game__score {
+.gameScore {
   font-size: clamp(1.1rem, 2vw, 2rem);
 }
 
-.game__score--num {
+.gameScoreNum {
   color: slateblue;
 }
 
-.game__board {
+.gameBoard {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(25%, 1fr));
   gap: 1rem;
@@ -34,7 +34,7 @@
   margin: 0 auto;
 }
 
-.game__board--card {
+.gameBoardCard {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -46,24 +46,24 @@ p {
   font-size: clamp(1.2rem, 2vw, 2rem);
 }
 
-.game__board--card--name {
+.gameBoardCardName {
   text-transform: capitalize;
   font-size: clamp(1rem, 3vw, 2.2rem);
 }
 
-img {
+.gameBoardCardImg {
   width: 100%;
   height: 100%;
 }
 
-.loading__container {
+.loadingContainer {
   display: flex;
   height: 50vh;
   align-items: center;
   justify-content: center;
 }
 
-.loading__star {
+.loadingStar {
   margin: 0 auto;
   animation: rotateStar 2000ms infinite ease-in-out alternate;
   width: 5%;
@@ -80,7 +80,7 @@ img {
 }
 
 @media (max-width: 840px) {
-  .game__header {
+  .gameHeader {
     flex-direction: column;
     align-items: center;
     gap: 0;

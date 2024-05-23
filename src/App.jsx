@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import "../styles/game.css";
+import styles from "../styles/game.module.css";
 import { range } from "lodash";
 
 function populateUrls() {
@@ -72,13 +72,13 @@ function Game() {
 
   return (
     <div>
-      <div className="game__header">
+      <div className={styles.gameHeader}>
         <Header />
         <ScoreBoard current={currentScore} best={bestScore} />
       </div>
       {status === "loading" ? (
-        <div className="loading__container">
-          <img className="loading__star" src="./assets/pokeball.png" />
+        <div className={styles.loadingContainer}>
+          <img className={styles.loadingStar} src="./assets/pokeball.png" />
         </div>
       ) : (
         <CardSet pokemon={pokemon} handleScoreChange={handleClick} />
@@ -90,7 +90,7 @@ function Game() {
 function Header() {
   return (
     <div>
-      <h1 className="game__header--title">Pokémon Memory Game</h1>
+      <h1 className={styles.gameHeaderTitle}>Pokémon Memory Game</h1>
       <p>
         Click on the Pokémon to get points, but do not click on the same one
         twice!
@@ -101,12 +101,12 @@ function Header() {
 
 function ScoreBoard({ current, best }) {
   return (
-    <div className="game__score">
+    <div className={styles.gameScore}>
       <h2>
-        Score: <span className="game__score--num">{current}</span>
+        Score: <span className={styles.gameScoreNum}>{current}</span>
       </h2>
       <h2>
-        Best Score: <span className="game__score--num">{best}</span>
+        Best Score: <span className={styles.gameScoreNum}>{best}</span>
       </h2>
     </div>
   );
@@ -114,16 +114,16 @@ function ScoreBoard({ current, best }) {
 
 function Card({ img, name, handleScoreChange }) {
   return (
-    <div className="game__board--card" onClick={handleScoreChange}>
-      <img src={img} alt="" className="game__board--card--img" />
-      <p className="game__board--card--name">{name}</p>
+    <div className={styles.gameBoardCard} onClick={handleScoreChange}>
+      <img src={img} alt="" className={styles.gameBoardCardImg} />
+      <p className={styles.gameBoardCardName}>{name}</p>
     </div>
   );
 }
 
 function CardSet({ pokemon, handleScoreChange }) {
   return (
-    <div className="game__board">
+    <div className={styles.gameBoard}>
       {pokemon?.map((poke, index) => (
         <Card
           name={poke?.name}
